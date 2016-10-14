@@ -44,6 +44,12 @@ class TesseractOCR
     protected $tempDir;
 
     /**
+     * Name or path to executable file
+     * @var string
+     */
+    protected $exec;
+
+    /**
      * Path of a temporary file that carries tesseract configuration to
      * be used on the recognition process
      * @var string
@@ -174,6 +180,18 @@ class TesseractOCR
     }
 
     /**
+     * Sets the executable path
+     *
+     * @param string $exec Name or path to executable
+     *
+     * @return void
+     */
+     public function setExec($exec)
+     {
+         $this->exec = $exec;
+     }
+
+    /**
      * Generates a temporary tesseract configuration file to be used on the
      * recognition process
      *
@@ -196,7 +214,18 @@ class TesseractOCR
     protected function execute()
     {
         $this->outputFile = $this->getTempDir() . rand();
-        exec($this->buildTesseractCommand());
+
+        $cmd = $this->buildTesseractCommand();
+        $output = array();
+        $status;
+
+        exec($cmd, $output, $status);
+
+        switch ($status) {
+            case 127:
+                throw new Exception('unable to find executable');
+                break;
+        }
     }
 
     /**
@@ -206,7 +235,7 @@ class TesseractOCR
      */
     protected function buildTesseractCommand()
     {
-        $command = "tesseract \"{$this->image}\"";
+        $command = "{$this->exec} \"{$this->image}\"";
 
         if ($this->language) {
             $command .= " -l {$this->language}";
