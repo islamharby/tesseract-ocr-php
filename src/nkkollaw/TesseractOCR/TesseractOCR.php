@@ -20,6 +20,9 @@
  * @license  http://opensource.org/licenses/MIT MIT
  * @link     https://github.com/thiagoalessio/tesseract-ocr-for-php
  */
+
+namespace nkkollaw\TesseractOCR;
+
 class TesseractOCR
 {
     /**
@@ -129,7 +132,7 @@ class TesseractOCR
 
     /**
      * Flatten the lists of characters into a single string
-     * 
+     *
      * @param array $charLists Lists of chars the OCR should look for
      *
      * @return string
