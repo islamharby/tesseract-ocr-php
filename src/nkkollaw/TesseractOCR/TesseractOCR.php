@@ -64,9 +64,9 @@ class TesseractOCR
      */
     public function __construct($image)
     {
-		if (!is_file($image)) {
-			throw new \Exception('image file not found');
-		}
+        if (!is_file($image)) {
+            throw new \Exception('image file not found');
+        }
 
         $this->image = $image;
     }
@@ -80,9 +80,10 @@ class TesseractOCR
     {
         $this->generateConfigFile();
         $this->execute();
-        $recognizedText = $this->readOutputFile();
+        $recognized_text = $this->readOutputFile();
         $this->removeTempFiles();
-        return $recognizedText;
+
+        return $recognized_text;
     }
 
     /**
@@ -95,6 +96,7 @@ class TesseractOCR
     public function setLanguage($language)
     {
         $this->language = $language;
+
         return $this;
     }
 
@@ -108,6 +110,7 @@ class TesseractOCR
     public function setPsm($psm)
     {
         $this->psm = (int) $psm;
+
         return $this;
     }
 
@@ -119,6 +122,7 @@ class TesseractOCR
     public function setWhitelist()
     {
         $this->whitelist = $this->buildWhitelistString(func_get_args());
+
         return $this;
     }
 
@@ -129,13 +133,14 @@ class TesseractOCR
      *
      * @return string
      */
-    protected function buildWhitelistString($charLists)
+    protected function buildWhitelistString($char_lists)
     {
-        $whiteList = '';
-        foreach ($charLists as $list) {
-            $whiteList .= is_array($list) ? join('', $list) : $list;
+        $whitelist = '';
+        foreach ($char_lists as $list) {
+            $whitelist .= is_array($list) ? join('', $list) : $list;
         }
-        return $whiteList;
+
+        return $whitelist;
     }
 
     /**
@@ -152,6 +157,7 @@ class TesseractOCR
         if (substr($this->tempDir, -1) != DIRECTORY_SEPARATOR) {
             $this->tempDir .= DIRECTORY_SEPARATOR;
         }
+
         return $this->tempDir;
     }
 
@@ -176,7 +182,7 @@ class TesseractOCR
     protected function generateConfigFile()
     {
         if ($this->whitelist) {
-            $this->configFile = $this->getTempDir().rand().'.conf';
+            $this->configFile = $this->getTempDir() . rand() . '.conf';
             $content = "tessedit_char_whitelist {$this->whitelist}";
             file_put_contents($this->configFile, $content);
         }
@@ -189,7 +195,7 @@ class TesseractOCR
      */
     protected function execute()
     {
-        $this->outputFile = $this->getTempDir().rand();
+        $this->outputFile = $this->getTempDir() . rand();
         exec($this->buildTesseractCommand());
     }
 
@@ -203,17 +209,17 @@ class TesseractOCR
         $command = "tesseract \"{$this->image}\"";
 
         if ($this->language) {
-            $command.= " -l {$this->language}";
+            $command .= " -l {$this->language}";
         }
 
         if (null !== $this->psm) {
-            $command.= " -psm {$this->psm}";
+            $command .= " -psm {$this->psm}";
         }
 
         $command.= " {$this->outputFile}";
 
         if ($this->configFile) {
-            $command.= " nobatch {$this->configFile}";
+            $command .= " nobatch {$this->configFile}";
         }
 
         return $command;
@@ -226,7 +232,8 @@ class TesseractOCR
      */
     protected function readOutputFile()
     {
-        $this->outputFile.= '.txt'; //automatically appended by tesseract
+        $this->outputFile .= '.txt'; //automatically appended by tesseract
+
         return trim(file_get_contents($this->outputFile));
     }
 
@@ -240,6 +247,7 @@ class TesseractOCR
         if ($this->configFile) {
             unlink($this->configFile);
         }
+
         unlink($this->outputFile);
     }
 }
