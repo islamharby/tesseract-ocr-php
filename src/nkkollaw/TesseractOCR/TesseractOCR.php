@@ -1,24 +1,12 @@
 <?php
 /**
- * A wrapper to work with TesseractOCR inside PHP
- *
- * PHP version 5
+ * A wrapper to work with Tesseract OCR inside PHP, forked from thiagoalessio/tesseract-ocr-for-php
  *
  * @category OCR
  * @package  TesseractOCR
- * @author   Thiago Alessio Pereira <thiagoalessio@me.com>
+ * @author   Niccolo Brogi <me@nbrogi.com>
  * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/thiagoalessio/tesseract-ocr-for-php
- */
-
-/**
- * A wrapper to work with TesseractOCR inside PHP
- *
- * @category OCR
- * @package  TesseractOCR
- * @author   Thiago Alessio Pereira <thiagoalessio@me.com>
- * @license  http://opensource.org/licenses/MIT MIT
- * @link     https://github.com/thiagoalessio/tesseract-ocr-for-php
+ * @link     https://github.com/nkkollaw/tesseract-ocr-php
  */
 
 namespace nkkollaw\TesseractOCR;
