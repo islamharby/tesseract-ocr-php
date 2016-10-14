@@ -64,6 +64,10 @@ class TesseractOCR
      */
     public function __construct($image)
     {
+		if (!is_file($image)) {
+			throw new \Exception('image file not found');
+		}
+
         $this->image = $image;
     }
 
